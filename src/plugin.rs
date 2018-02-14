@@ -1,4 +1,5 @@
 use samp_sdk::consts::*;
+use samp_sdk::types;
 use samp_sdk::data;
 use samp_sdk::amx::AMX;
 use std::ffi::CString;
@@ -16,8 +17,15 @@ impl Plugin {
     }
 
     pub fn amx_load(amx: AMX) -> u32 {
-        let (result, index) = amx.find_public("OnPlayerConnect");
-        log(&format!("amx.find_public ({}, {})", result, index));
+        let natives = natives![
+            { "callme", callme }
+        ];
+
+        match amx.register(&natives) {
+            Ok(_) => log("Natives was successful loaded!"),
+            Err(err) => log(&format!("Error {:?}", err)),
+        }
+
         AMX_ERR_NONE
     }
 
@@ -28,6 +36,15 @@ impl Plugin {
     pub fn supports() -> u32 {
         SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES 
     }
+
+    // callme(&val)
+    pub fn callme(amx: AMX, params: *mut types::Cell) -> types::Cell {
+        0
+    }
+}
+
+extern "C" fn callme(amx: *mut types::AMX, params: *mut types::Cell) -> types::Cell {
+    Plugin::callme(AMX::new(amx), params)
 }
 
 pub fn log(text: &str) {
