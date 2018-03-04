@@ -9,4 +9,3 @@ crate-type = ["dylib"]
 
 [dependencies]
 samp-sdk = { git = "https://github.com/zottce/samp-sdk.git" }
-libc = "0.2"
