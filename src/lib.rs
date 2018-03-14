@@ -1,8 +1,7 @@
-#![feature(trace_macros)]
-
 #[macro_use] extern crate samp_sdk;
+extern crate memcache;
 
 mod plugin;
-use plugin::Plugin;
+use plugin::Memcached;
 
-new_plugin!(Plugin with process_tick);
+new_plugin!(Memcached);
