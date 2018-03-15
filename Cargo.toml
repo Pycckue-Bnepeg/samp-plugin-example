@@ -8,5 +8,5 @@ name = "plugin"
 crate-type = ["dylib"]
 
 [dependencies]
-samp-sdk = { git = 'https://github.com/zottce/samp-sdk.git' }
+samp-sdk = "0.8.1"
 memcache = "0.7"
