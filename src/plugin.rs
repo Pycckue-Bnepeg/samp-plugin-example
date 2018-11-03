@@ -78,7 +78,8 @@ impl Memcached {
         if con < self.clients.len() {
             match self.clients[con].get::<String>(key.as_str()) {
                 Ok(Some(data)) => {
-                    set_string!(data, string, size);
+                    let encoded = samp_sdk::cp1251::encode(&data)?;
+                    set_string!(encoded, string, size);
                     Ok(1)
                 },
                 Ok(None) => Ok(0),
